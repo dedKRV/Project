@@ -9,13 +9,58 @@
     ],
     "fileStates": {
         "D:/Project/assets/tilesets/1.tsx": {
-            "dynamicWrapping": false
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "D:/Project/assets/tilesets/2.tsx": {
-            "dynamicWrapping": true
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33,
+            "scaleInEditor": 1
+        },
+        "D:/Project/assets/tilesets/3.tsx": {
+            "scaleInDock": 0.25,
+            "scaleInEditor": 0.33
+        },
+        "D:/Project/assets/tilesets/4.tsx": {
+            "scaleInDock": 0.33,
+            "scaleInEditor": 0.5
+        },
+        "D:/Project/assets/tilesets/5.tsx": {
+            "scaleInDock": 0.25,
+            "scaleInEditor": 0.5
+        },
+        "D:/Project/assets/tilesets/6.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125,
+            "scaleInEditor": 0.33
+        },
+        "D:/Project/assets/tilesets/Entry.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "D:/Project/assets/tilesets/Generator.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "D:/Project/assets/tilesets/Hammer.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "D:/Project/assets/tilesets/Platform.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "D:/Project/assets/tilesets/Saw.tsx": {
-            "dynamicWrapping": false
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 2
+        },
+        "D:/Project/assets/tilesets/Transporter.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "D:/Project/assets/tilesets/set.tsx": {
             "scaleInDock": 2,
@@ -66,11 +111,11 @@
             }
         },
         "level_1.tmx": {
-            "scale": 1.5,
-            "selectedLayer": 10,
+            "scale": 0.75,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 213.33333333333337,
-                "y": 190
+                "x": 614.6666666666665,
+                "y": 424
             }
         },
         "tilets_1.tsx": {
@@ -82,37 +127,48 @@
             "scaleInEditor": 1
         }
     },
-    "last.imagePath": "D:/Project/assets/tilesets/1/4 Animated objects",
-    "map.height": 20,
+    "last.imagePath": "D:/Project/assets/tilesets/2/4 Animated objects",
+    "map.height": 23,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 32,
     "map.tileWidth": 32,
-    "map.width": 20,
+    "map.width": 40,
     "openFiles": [
-        "D:/Project/assets/tilesets/set.tsx",
+        "D:/Project/assets/tilesets/1.tsx",
+        "D:/Project/assets/tilesets/2.tsx",
+        "D:/Project/assets/tilesets/3.tsx",
+        "D:/Project/assets/tilesets/4.tsx",
+        "D:/Project/assets/tilesets/5.tsx",
+        "D:/Project/assets/tilesets/6.tsx",
+        "D:/Project/assets/tilesets/Saw.tsx",
+        "D:/Project/assets/tilesets/Hammer.tsx",
+        "D:/Project/assets/tilesets/Platform.tsx",
+        "D:/Project/assets/tilesets/Entry.tsx",
+        "D:/Project/assets/tilesets/Transporter.tsx",
+        "D:/Project/assets/tilesets/Generator.tsx",
         "level_1.tmx"
     ],
     "project": "tiled.tiled-project",
     "recentFiles": [
-        "level.tmx",
-        "D:/Project/assets/ui_textures/set.tsx",
-        "D:/Project/assets/ui_textures/set1.tsx",
-        "D:/Project/assets/ui_textures/ыуе.tsx",
-        "level_1.tmx",
-        "D:/Project/assets/tilesets/set.tsx",
-        "D:/Project/assets/tilesets/tilesets_5.tsx",
-        "D:/Project/assets/tilesets/tilesets_4.tsx",
-        "D:/Project/assets/tilesets/tilesets_3.tsx",
-        "D:/Project/assets/tilesets/tilesets_2.tsx",
-        "D:/Project/assets/tilesets/tilesets_1.tsx",
-        "tilets_2.tsx"
+        "D:/Project/assets/tilesets/1.tsx",
+        "D:/Project/assets/tilesets/2.tsx",
+        "D:/Project/assets/tilesets/3.tsx",
+        "D:/Project/assets/tilesets/4.tsx",
+        "D:/Project/assets/tilesets/5.tsx",
+        "D:/Project/assets/tilesets/6.tsx",
+        "D:/Project/assets/tilesets/Saw.tsx",
+        "D:/Project/assets/tilesets/Hammer.tsx",
+        "D:/Project/assets/tilesets/Platform.tsx",
+        "D:/Project/assets/tilesets/Entry.tsx",
+        "D:/Project/assets/tilesets/Transporter.tsx",
+        "D:/Project/assets/tilesets/Generator.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.margin": 0,
     "tileset.spacing": 0,
     "tileset.tileSize": {
-        "height": 32,
-        "width": 96
+        "height": 64,
+        "width": 64
     },
     "tileset.type": 0
 }
