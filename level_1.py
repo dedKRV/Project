@@ -75,6 +75,10 @@ class GameWindow(arcade.Window):
         self.player_spritelist = arcade.SpriteList()
         self.player_spritelist.append(self.player)
 
+        self.right_wall = arcade.SpriteSolidColor(10, LEVEL_HEIGHT, arcade.color.BLACK) # правая граница
+        self.right_wall.center_x = LEVEL_WIDTH + 5
+        self.right_wall.center_y = LEVEL_HEIGHT / 2
+
         self.enemies = arcade.SpriteList()
         self.enemy_bullets = arcade.SpriteList()
         self.cards_list = arcade.SpriteList()
@@ -149,7 +153,6 @@ class GameWindow(arcade.Window):
             self.load_enemies_from_spawn_points()
 
         self.update_exit_visibility()
-
     def load_cards(self):
         """Загрузка карт на уровень"""
         for card_pos in LEVEL_1_CARDS:
@@ -320,6 +323,8 @@ class GameWindow(arcade.Window):
 
     def on_update(self, delta_time):
         """Основной игровой цикл"""
+        self.player.center_x = max(0, min(self.player.center_x, LEVEL_WIDTH)) # создано для того, чтобы персонаж не вылетал за границы
+        self.player.center_y = max(0, min(self.player.center_y, LEVEL_HEIGHT))
         # Анимация фоновых слоев
         self.animation_timer += delta_time
         if self.animation_timer >= ANIMATION_FRAME_TIME:
