@@ -1,5 +1,6 @@
 import arcade
 
+
 class Controls:
     def __init__(self):
         """Инициализация управления"""
@@ -7,6 +8,7 @@ class Controls:
         self.right_pressed = False
         self.up_pressed = False
         self.down_pressed = False
+        self.shoot_pressed = False
 
     def on_key_press(self, key, modifiers):
         """Обработка нажатия клавиши"""
@@ -30,6 +32,16 @@ class Controls:
         elif key in (arcade.key.DOWN, arcade.key.S):
             self.down_pressed = False
 
+    def on_mouse_press(self, x, y, button, modifiers):
+        """Обработка нажатия кнопки мыши"""
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            self.shoot_pressed = True
+
+    def on_mouse_release(self, x, y, button, modifiers):
+        """Обработка отпускания кнопки мыши"""
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            self.shoot_pressed = False
+
     def get_movement(self):
         """Получить текущее состояние управления"""
         return {
@@ -38,3 +50,7 @@ class Controls:
             "up": self.up_pressed,
             "down": self.down_pressed
         }
+
+    def get_shooting(self):
+        """Получить состояние стрельбы"""
+        return self.shoot_pressed

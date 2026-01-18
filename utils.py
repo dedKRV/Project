@@ -35,5 +35,13 @@ class Game(GameWindow):
         self.camera.use()
         super().on_draw()
 
+    def on_mouse_press(self, x, y, button, modifiers):
+        """Обработка нажатия мыши"""
+        self.controls.on_mouse_press(x, y, button, modifiers)
+
+    def on_mouse_release(self, x, y, button, modifiers):
+        """Обработка отпускания мыши"""
+        self.controls.on_mouse_release(x, y, button, modifiers)
+
 def load_sprite(path, scale=1.0):
     pass

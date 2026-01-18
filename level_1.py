@@ -1,6 +1,6 @@
 import arcade
 from core import *
-from entities import Player, PlayerBullet
+from entities import Player
 from enemies import Enemy, Bullet, Card
 from enemy_config import LEVEL_1_ENEMIES, ENEMY_Y_OFFSET, LEVEL_1_CARDS
 from control import Controls
@@ -62,6 +62,8 @@ class GameWindow(arcade.Window):
         self.damage_cooldown = 0
         self.DAMAGE_COOLDOWN_TIME = 0.5
 
+        self.shoot_timer = 0  # Таймер для стрельбы игрока
+
         self.cards_collected = 0
         self.total_cards = len(LEVEL_1_CARDS)
         self.exit_visible = False
@@ -93,7 +95,6 @@ class GameWindow(arcade.Window):
             "jump": {"use_spatial_hash": True},
             "spawn_entities": {"use_spatial_hash": True},
         }
-
 
         for layer_name in self.animation_layers:
             layer_options[layer_name] = {"use_spatial_hash": False}
@@ -240,11 +241,11 @@ class GameWindow(arcade.Window):
                 player_bullets_to_remove.append(bullet)
                 continue
 
-            # Попадание по врагам
             for enemy in self.enemies:
                 if arcade.check_for_collision(bullet, enemy):
                     player_bullets_to_remove.append(bullet)
-                    self.enemies.remove(enemy)
+                    if enemy.take_damage(bullet.damage):
+                        self.enemies.remove(enemy)
                     break
 
         # Удаление пуль игрока
@@ -256,7 +257,7 @@ class GameWindow(arcade.Window):
         """Отрисовка всех объектов"""
         self.clear()
 
-        # Фоновые слои, скоро добавлю изображение на фон
+        # Фоновые слои
         background_layers = ['background', 'background_2']
         for layer_name in background_layers:
             if layer_name in self.tile_map.sprite_lists:
@@ -291,8 +292,7 @@ class GameWindow(arcade.Window):
             self.jump_animation_sprites[self.visible_jump_animation_layer].draw()
 
         self.player_spritelist.draw()
-        for bullet in self.player.player_bullets:
-            bullet.draw()
+        self.player.player_bullets.draw()  # Отрисовка пуль игрока
 
         # UI: здоровье
         health_text = f"Здоровье: {self.player_health}/{PLAYER_MAX_HEALTH}"
@@ -320,12 +320,14 @@ class GameWindow(arcade.Window):
 
     def on_update(self, delta_time):
         """Основной игровой цикл"""
+        # Анимация фоновых слоев
         self.animation_timer += delta_time
         if self.animation_timer >= ANIMATION_FRAME_TIME:
             self.animation_timer = 0
             self.current_animation_frame = (self.current_animation_frame + 1) % len(self.animation_layers)
             self.visible_animation_layer = self.animation_layers[self.current_animation_frame]
 
+        # Анимация прыжковых платформ
         if self.jump_animation_active:
             self.jump_animation_elapsed += delta_time
 
@@ -341,9 +343,11 @@ class GameWindow(arcade.Window):
             if self.jump_animation_elapsed >= self.jump_animation_duration:
                 self.jump_animation_active = False
 
+        # Кулдаун урона
         if self.damage_cooldown > 0:
             self.damage_cooldown -= delta_time
 
+        # Обновление карт
         for card in self.cards_list:
             card.update(delta_time)
 
@@ -394,21 +398,20 @@ class GameWindow(arcade.Window):
                 if bullet in enemy.bullets:
                     enemy.bullets.remove(bullet)
 
-        # Очистка пуль игрока
-        player_bullets_to_remove = []
-        for bullet in self.player.player_bullets:
-            bullet.update(delta_time)
-            if bullet.should_remove:
-                player_bullets_to_remove.append(bullet)
-            elif (bullet.center_x < -SCREEN_MARGIN or
-                  bullet.center_x > SCREEN_WIDTH + SCREEN_MARGIN or
-                  bullet.center_y < -SCREEN_MARGIN or
-                  bullet.center_y > SCREEN_HEIGHT + SCREEN_MARGIN):
-                player_bullets_to_remove.append(bullet)
+        # Обновление и очистка пуль игрока
+        self.player.player_bullets.update()
 
-        for bullet in player_bullets_to_remove:
-            if bullet in self.player.player_bullets:
-                self.player.player_bullets.remove(bullet)
+        bullets_to_remove = []
+        for bullet in self.player.player_bullets:
+            if bullet.should_remove or \
+                    bullet.center_x < -SCREEN_MARGIN or \
+                    bullet.center_x > SCREEN_WIDTH + SCREEN_MARGIN or \
+                    bullet.center_y < -SCREEN_MARGIN or \
+                    bullet.center_y > SCREEN_HEIGHT + SCREEN_MARGIN:
+                bullets_to_remove.append(bullet)
+
+        for bullet in bullets_to_remove:
+            bullet.remove_from_sprite_lists()
 
         # Проверка нахождения на лестнице
         self.on_ladder = self.physics_engine.is_on_ladder()
@@ -419,6 +422,15 @@ class GameWindow(arcade.Window):
         right_pressed = movement["right"]
         up_pressed = movement["up"]
         down_pressed = movement["down"]
+        shoot_pressed = self.controls.get_shooting()
+
+        # Автоматическая стрельба при зажатии ЛКМ
+        if shoot_pressed and self.shoot_timer <= 0:
+            self.player.shoot()
+            self.shoot_timer = SHOOT_COOLDOWN
+
+        if self.shoot_timer > 0:
+            self.shoot_timer -= delta_time
 
         # Определение состояния
         self.is_running = (left_pressed or right_pressed) and not self.on_ladder
@@ -464,7 +476,10 @@ class GameWindow(arcade.Window):
                 self.player.change_y = PLAYER_JUMP_SPEED
                 self.player.start_jump_animation()
 
+        # Проверка коллизий
         self.check_collisions()
+
+        # Обновление физики
         self.physics_engine.update()
 
     def on_key_press(self, key, modifiers):
@@ -477,8 +492,3 @@ class GameWindow(arcade.Window):
     def on_key_release(self, key, modifiers):
         """Обработка отпускания клавиш"""
         self.controls.on_key_release(key, modifiers)
-
-    def on_mouse_press(self, x, y, button, modifiers):
-        """Обработка нажатия мыши"""
-        if button == arcade.MOUSE_BUTTON_LEFT:
-            self.player.shoot()  # Стрельба

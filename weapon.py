@@ -1,4 +1,5 @@
 import arcade
+from core import PLAYER_BULLET_SPEED, PLAYER_BULLET_LIFETIME
 
 
 class Weapon:
@@ -20,7 +21,6 @@ class Weapon:
             self.shoot_texture = arcade.load_texture(
                 "assets/sprites/Players/Guns_Players/Biker/Biker_gun_2.png")
             self.shoot_texture_flipped = self.shoot_texture.flip_left_right()
-            self.bullet_texture = "assets/sprites/Players/2/5 Bullets/6"
 
         elif weapon_type == "punk":
             self.idle_texture = arcade.load_texture("assets/sprites/Players/Guns_Players/Punk/Punk_gun_1.png")
@@ -28,7 +28,6 @@ class Weapon:
             self.shoot_texture = arcade.load_texture(
                 "assets/sprites/Players/Guns_Players/Punk/Punk_gun_2.png")
             self.shoot_texture_flipped = self.shoot_texture.flip_left_right()
-            self.bullet_texture = "assets/sprites/Players/2/5 Bullets/8"
 
         elif weapon_type == "cyborg":
             self.idle_texture = arcade.load_texture(
@@ -37,7 +36,6 @@ class Weapon:
             self.shoot_texture = arcade.load_texture(
                 "assets/sprites/Players/Guns_Players/Cyborg/Cyborg_gun_2.png")
             self.shoot_texture_flipped = self.shoot_texture.flip_left_right()
-            self.bullet_texture = "assets/sprites/Players/2/5 Bullets/10"
 
     def activate(self):
         self.is_active = True
@@ -75,3 +73,31 @@ class Weapon:
                 return self.idle_texture_flipped
             else:
                 return self.idle_texture
+
+
+class PlayerBullet(arcade.Sprite):
+    def __init__(self, character_type, scale=0.5):
+        if character_type == "biker":
+            texture_path = "assets/sprites/Players/2/5 Bullets/6.png"
+            damage = 10
+        elif character_type == "punk":
+            texture_path = "assets/sprites/Players/2/5 Bullets/8.png"
+            damage = 15
+        elif character_type == "cyborg":
+            texture_path = "assets/sprites/Players/2/5 Bullets/10.png"
+            damage = 20
+
+        super().__init__(texture_path, scale=scale)
+        self.speed = PLAYER_BULLET_SPEED
+        self.damage = damage
+        self.lifetime = PLAYER_BULLET_LIFETIME
+        self.current_lifetime = 0
+        self.should_remove = False
+
+    def update(self, delta_time):
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+        self.current_lifetime += delta_time
+
+        if self.current_lifetime >= self.lifetime:
+            self.should_remove = True

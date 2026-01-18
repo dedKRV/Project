@@ -2,8 +2,9 @@ import arcade
 import math
 from core import *
 
+
 class Enemy(arcade.Sprite):
-    def __init__(self, x, y, attack_cooldown=2.0, damage=10, y_offset=10,
+    def __init__(self, x, y, attack_cooldown=ENEMY_SHOOT_COOLDOWN, damage=10, y_offset=10, health=ENEMY_MAX_HEALTH,
                  texture="assets/sprites/Enemies/2/Attack_c/Attack_1.png", scale=1):
         """Создание врага"""
         super().__init__(texture, scale=scale)
@@ -14,6 +15,7 @@ class Enemy(arcade.Sprite):
         self.current_cooldown = 0
         self.bullets = []
         self.damage = damage
+        self.health = health  # НОВОЕ: здоровье врага
 
     def update(self, player, delta_time, walls):
         """Обновление логики врага"""
@@ -25,6 +27,13 @@ class Enemy(arcade.Sprite):
         if distance < self.attack_range and self.current_cooldown <= 0:
             self.shoot(player)
             self.current_cooldown = self.attack_cooldown
+
+    def take_damage(self, damage):
+        """Получение урона врагом"""
+        self.health -= damage
+        if self.health <= 0:
+            return True  # враг мертв
+        return False  # враг жив
 
     def shoot(self, player):
         """Стрельба в игрока"""
