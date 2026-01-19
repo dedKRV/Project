@@ -1,10 +1,20 @@
 import arcade
+import pygame
 from utils import Game
 
-def main():
-    window = Game()
-    window.setup()
-    arcade.run()
 
+def main():
+    try:
+        window = Game()
+        window.set_fullscreen(True)
+        window.setup()
+        arcade.run()
+    except Exception as e:
+        print(f"Произошла ошибка: {e}")
+    finally:
+        pygame.quit()
+
+if __name__ == "__main__":
+    main()
 if __name__ == "__main__":
     main()

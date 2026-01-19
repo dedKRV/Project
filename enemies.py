@@ -116,6 +116,8 @@ class Enemy(arcade.Sprite):
 
     def shoot(self, player):
         """Стрельба в игрока"""
+        if self.state == 'dead':
+            return None
         bullet = Bullet(self.damage)
         bullet.center_x = self.center_x
         bullet.center_y = self.center_y

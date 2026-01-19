@@ -30,6 +30,9 @@ class GameWindow(arcade.Window):
         self.animation_layer_sprites = {}
         self.jump_animation_sprites = {}
 
+        self.initial_enemies_data = []
+        self.initial_cards_data = []
+
         self.physics_engine = None
 
         self.enemies = None
@@ -82,6 +85,7 @@ class GameWindow(arcade.Window):
         self.enemies = arcade.SpriteList()
         self.enemy_bullets = arcade.SpriteList()
         self.cards_list = arcade.SpriteList()
+        self.initial_cards_data = LEVEL_1_CARDS.copy()
 
         self.load_cards()
 
@@ -151,6 +155,7 @@ class GameWindow(arcade.Window):
 
         if self.spawn_entities_list:
             self.load_enemies_from_spawn_points()
+            self.save_initial_enemies_state()
 
         self.update_exit_visibility()
     def load_cards(self):
@@ -179,17 +184,84 @@ class GameWindow(arcade.Window):
             self.exit_visible = False
             self.exit_animation_visible = True
 
+    def save_initial_enemies_state(self):
+        """Сохраняем исходные данные врагов"""
+        self.initial_enemies_data = []
+        for spawn in self.spawn_entities_list:
+            self.initial_enemies_data.append({
+                'x': spawn.center_x,
+                'y': spawn.center_y
+            })
+
+    def reset_level_state(self):
+        """Сброс уровня при смерти игрока"""
+        self.cards_list.clear()
+        for card_pos in self.initial_cards_data:
+            x, y = card_pos
+            card = Card(x, y)
+            self.cards_list.append(card)
+
+        # Сбрасываем счетчик карт
+        self.cards_collected = 0
+
+        # Сбрасываем врагов
+        self.enemies.clear()
+        self.enemy_bullets.clear()
+
+        attack_cooldown, damage = LEVEL_1_ENEMIES
+        for enemy_data in self.initial_enemies_data:
+            enemy = Enemy(
+                enemy_data['x'],
+                enemy_data['y'],
+                attack_cooldown,
+                damage,
+                ENEMY_Y_OFFSET
+            )
+            self.enemies.append(enemy)
+
+        self.player.player_bullets.clear()
+        self.update_exit_visibility()
+        self.jump_animation_active = False
+
     def apply_damage(self, damage_amount):
         """Нанесение урона игроку"""
         if self.damage_cooldown <= 0:
             self.player_health -= damage_amount
             self.damage_cooldown = self.DAMAGE_COOLDOWN_TIME
+
             if self.player_health < 0:
                 self.player_health = 0
+
             if self.player_health <= 0:
+                self.reset_level_state()
+
                 self.player_health = PLAYER_MAX_HEALTH
                 self.player.center_x = TILE_SIZE * 3
                 self.player.center_y = TILE_SIZE * 17
+
+                self.damage_cooldown = 0
+                self.shoot_timer = 0
+
+    def check_game_completion(self):
+        """Проверка условий завершения игры"""
+        if not self.exit_visible:
+            return False
+
+        all_enemies_dead = True
+        for enemy in self.enemies:
+            if enemy.state != 'dead':
+                all_enemies_dead = False
+                break
+
+        exit_hit_list = arcade.check_for_collision_with_list(self.player, self.exit_list)
+
+        if (self.cards_collected >= self.total_cards and
+                all_enemies_dead and
+                exit_hit_list):
+            arcade.close_window()
+            return True
+
+        return False
 
     def check_collisions(self):
         """Проверка всех коллизий"""
@@ -440,6 +512,9 @@ class GameWindow(arcade.Window):
         # Определение состояния
         self.is_running = (left_pressed or right_pressed) and not self.on_ladder
         self.is_climbing = self.on_ladder and (up_pressed or down_pressed)
+
+        if self.check_game_completion():
+            return
 
         # Обновление анимации игрока
         self.player.update_animation(

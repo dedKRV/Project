@@ -39,6 +39,12 @@ class Game(GameWindow):
             max(self.camera.viewport_height / self.camera.zoom / 2,
                 min(self.camera.position[1], LEVEL_HEIGHT - self.camera.viewport_height / self.camera.zoom / 2)))
 
+    def on_close(self):
+        """Обработка закрытия окна"""
+        super().on_close()
+        pygame.quit()
+
+
     def on_draw(self):
         self.camera.use()
         super().on_draw()
