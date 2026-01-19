@@ -254,27 +254,25 @@ class GameWindow(arcade.Window):
         if not exit_hit_list:
             return False
 
-        # Проверяем все ли карты собраны
         all_cards_collected = self.cards_collected >= self.total_cards
 
         if not all_cards_collected:
-            return False  # Не все карты собраны - нельзя завершить
+            return False
 
-        # Проверяем все ли враги убиты
         all_enemies_dead = True
         for enemy in self.enemies:
             if enemy.state != 'dead':
                 all_enemies_dead = False
                 break
 
-        # Подсчет звезд и вывод в консоль
+        # Вывод в консоль
         if all_cards_collected and all_enemies_dead:
-            self.stars_earned = 2  # 2 звезды
+            self.stars_earned = 2
             print("★ ★ - Отлично!")
             print(f"Собрано карт: {self.cards_collected}/{self.total_cards}")
             print(f"Убито врагов: Все!")
         elif all_cards_collected:
-            self.stars_earned = 1  # 1 звезда
+            self.stars_earned = 1
             print("УРОВЕНЬ ПРОЙДЕН!")
             print("★ - Хорошо!")
             print(f"Собрано карт: {self.cards_collected}/{self.total_cards}")
