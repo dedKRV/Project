@@ -8,6 +8,31 @@
         "."
     ],
     "fileStates": {
+        "C:/Users/rioni/PycharmProjects/Project/assets/tilesets/1.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/rioni/PycharmProjects/Project/assets/tilesets/2.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "C:/Users/rioni/PycharmProjects/Project/assets/tilesets/6.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25
+        },
+        "C:/Users/rioni/PycharmProjects/Project/assets/tilesets/Entry.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "C:/Users/rioni/PycharmProjects/Project/assets/tilesets/Generator.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "C:/Users/rioni/PycharmProjects/Project/assets/tilesets/Saw.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/rioni/PycharmProjects/Project/assets/tilesets/Transporter.tsx": {
+            "scaleInDock": 1
+        },
         "D:/Project/assets/tilesets/1.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 1,
@@ -111,11 +136,11 @@
             }
         },
         "level_1.tmx": {
-            "scale": 0.75,
+            "scale": 1,
             "selectedLayer": 9,
             "viewCenter": {
-                "x": 594.6666666666665,
-                "y": 233.33333333333337
+                "x": 280,
+                "y": 104
             }
         },
         "tilets_1.tsx": {
@@ -127,6 +152,7 @@
             "scaleInEditor": 1
         }
     },
+    "last.externalTilesetPath": "C:/Users/rioni/OneDrive/Desktop/Новая папка (2)",
     "last.imagePath": "D:/Project/assets/tilesets/2/4 Animated objects",
     "map.height": 23,
     "map.lastUsedFormat": "tmx",
@@ -134,22 +160,11 @@
     "map.tileWidth": 32,
     "map.width": 40,
     "openFiles": [
-        "D:/Project/assets/tilesets/1.tsx",
-        "D:/Project/assets/tilesets/2.tsx",
-        "D:/Project/assets/tilesets/3.tsx",
-        "D:/Project/assets/tilesets/4.tsx",
-        "D:/Project/assets/tilesets/5.tsx",
-        "D:/Project/assets/tilesets/6.tsx",
-        "D:/Project/assets/tilesets/Saw.tsx",
-        "D:/Project/assets/tilesets/Hammer.tsx",
-        "D:/Project/assets/tilesets/Platform.tsx",
-        "D:/Project/assets/tilesets/Entry.tsx",
-        "D:/Project/assets/tilesets/Transporter.tsx",
-        "D:/Project/assets/tilesets/Generator.tsx",
         "level_1.tmx"
     ],
     "project": "tiled.tiled-project",
     "recentFiles": [
+        "level_1.tmx",
         "D:/Project/assets/tilesets/1.tsx",
         "D:/Project/assets/tilesets/2.tsx",
         "D:/Project/assets/tilesets/3.tsx",
@@ -160,9 +175,9 @@
         "D:/Project/assets/tilesets/Hammer.tsx",
         "D:/Project/assets/tilesets/Platform.tsx",
         "D:/Project/assets/tilesets/Entry.tsx",
-        "D:/Project/assets/tilesets/Transporter.tsx",
-        "D:/Project/assets/tilesets/Generator.tsx"
+        "D:/Project/assets/tilesets/Transporter.tsx"
     ],
+    "tileset.lastUsedFilter": "Файлы набора тайлов Tiled (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
     "tileset.margin": 0,
     "tileset.spacing": 0,

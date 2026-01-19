@@ -15,10 +15,43 @@ class Enemy(arcade.Sprite):
         self.current_cooldown = 0
         self.bullets = []
         self.damage = damage
-        self.health = health  # НОВОЕ: здоровье врага
+        self.health = health
+
+        self.state = "shooting"
+        self.animation_timer = 0
+        self.animation_frame = 0
+        self.original_y = self.center_y
+        self.shooting_textures = [
+            arcade.load_texture("assets/sprites/Enemies/2/Attack_c/Attack_1.png"),
+            arcade.load_texture("assets/sprites/Enemies/2/Attack_c/Attack_2.png"),
+            arcade.load_texture("assets/sprites/Enemies/2/Attack_c/Attack_3.png"),
+            arcade.load_texture("assets/sprites/Enemies/2/Attack_c/Attack_4.png")
+        ]
+        self.hurt_textures = [
+            arcade.load_texture("assets/sprites/Enemies/2/Hurt_c/Hurt_1.png"),
+            arcade.load_texture("assets/sprites/Enemies/2/Hurt_c/Hurt_2.png")
+        ]
+        self.dying_textures = [
+            arcade.load_texture("assets/sprites/Enemies/2/Death_c/Death_1.png"),
+            arcade.load_texture("assets/sprites/Enemies/2/Death_c/Death_2.png"),
+            arcade.load_texture("assets/sprites/Enemies/2/Death_c/Death_3.png"),
+            arcade.load_texture("assets/sprites/Enemies/2/Death_c/Death_4.png"),
+            arcade.load_texture("assets/sprites/Enemies/2/Death_c/Death_5.png"),
+            arcade.load_texture("assets/sprites/Enemies/2/Death_c/Death_6.png")
+        ]
+
+        self.texture = self.shooting_textures[0]
 
     def update(self, player, delta_time, walls):
         """Обновление логики врага"""
+        if self.state == 'dead':
+            self.update_animation(delta_time)
+            return
+
+        if self.state == 'hurt':
+            self.update_animation(delta_time)
+            return
+
         if self.current_cooldown > 0:
             self.current_cooldown -= delta_time
 
@@ -27,13 +60,59 @@ class Enemy(arcade.Sprite):
         if distance < self.attack_range and self.current_cooldown <= 0:
             self.shoot(player)
             self.current_cooldown = self.attack_cooldown
+            self.state = 'shooting'
+            self.animation_frame = 0
+            self.animation_timer = 0
+        self.update_animation(delta_time)
+
+    def update_animation(self, delta_time):
+        """Обновление анимации врага"""
+        self.animation_timer += delta_time
+
+        if self.state == 'shooting': # Анимация стрельбы
+            if self.animation_timer > 0.2:
+                self.animation_frame = (self.animation_frame + 1) % len(self.shooting_textures)
+                self.texture = self.shooting_textures[self.animation_frame]
+                self.animation_timer = 0
+                if self.animation_frame == len(self.shooting_textures) - 1:
+                    self.state = 'idle'
+                    self.animation_frame = 0
+
+        elif self.state == 'hurt': # Анимация получения урона
+            if self.animation_timer > 0.1:
+                self.animation_frame += 1
+                if self.animation_frame < len(self.hurt_textures):
+                    self.texture = self.hurt_textures[self.animation_frame]
+                    self.animation_timer = 0
+                else:
+                    self.state = 'idle'
+                    self.animation_frame = 0
+                    self.texture = self.shooting_textures[0]
+
+        elif self.state == 'dead': # Анимация смерти
+            if self.animation_timer > 0.2:
+                self.animation_frame += 1
+                if self.animation_frame < len(self.dying_textures):
+                    self.texture = self.dying_textures[self.animation_frame]
+                    self.animation_timer = 0
 
     def take_damage(self, damage):
         """Получение урона врагом"""
+        if self.state == 'dead':
+            return False
+
         self.health -= damage
         if self.health <= 0:
-            return True  # враг мертв
-        return False  # враг жив
+            self.state = 'dead'
+            self.texture = self.dying_textures[0]
+            self.animation_frame = 0
+            self.animation_timer = 0
+            return False
+        else:
+            self.state = 'hurt'
+            self.animation_frame = 0
+            self.animation_timer = 0
+            return False
 
     def shoot(self, player):
         """Стрельба в игрока"""
