@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="6">
  <tileset firstgid="1" name="паузкааааааааааа" tilewidth="32" tileheight="32" tilecount="1536" columns="48">
-  <image source="../../../OneDrive/Desktop/паузкааааааааааа.png" width="1536" height="1024"/>
+  <image source="assets/pause.png" width="1536" height="1024"/>
  </tileset>
  <layer id="1" name="Слой тайлов 1" width="30" height="20">
   <data encoding="csv">
