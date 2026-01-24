@@ -6,7 +6,7 @@ from utils import Game
 def main():
     try:
         window = Game()
-        window.set_fullscreen(True)
+        window.set_fullscreen(False)
         window.setup()
         arcade.run()
     except Exception as e:
@@ -14,7 +14,5 @@ def main():
     finally:
         pygame.quit()
 
-if __name__ == "__main__":
-    main()
 if __name__ == "__main__":
     main()

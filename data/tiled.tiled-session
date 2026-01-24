@@ -44,6 +44,7 @@
             "scaleInEditor": 1
         },
         "D:/Project/assets/tilesets/3.tsx": {
+            "dynamicWrapping": true,
             "scaleInDock": 0.25,
             "scaleInEditor": 0.33
         },
@@ -52,6 +53,7 @@
             "scaleInEditor": 0.5
         },
         "D:/Project/assets/tilesets/5.tsx": {
+            "dynamicWrapping": true,
             "scaleInDock": 0.25,
             "scaleInEditor": 0.5
         },
@@ -66,10 +68,12 @@
             "scaleInEditor": 1
         },
         "D:/Project/assets/tilesets/Generator.tsx": {
+            "dynamicWrapping": false,
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "D:/Project/assets/tilesets/Hammer.tsx": {
+            "dynamicWrapping": false,
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
@@ -86,6 +90,11 @@
         "D:/Project/assets/tilesets/Transporter.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
+        },
+        "D:/Project/assets/tilesets/background.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.0625,
+            "scaleInEditor": 0.12
         },
         "D:/Project/assets/tilesets/set.tsx": {
             "scaleInDock": 2,
@@ -136,11 +145,27 @@
             }
         },
         "level_1.tmx": {
-            "scale": 1,
-            "selectedLayer": 9,
+            "scale": 0.75,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 280,
-                "y": 104
+                "x": 646,
+                "y": 349.33333333333337
+            }
+        },
+        "level_2.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 7,
+            "viewCenter": {
+                "x": 677.3333333333334,
+                "y": 244
+            }
+        },
+        "level_3.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 651.3333333333333,
+                "y": 410.6666666666667
             }
         },
         "tilets_1.tsx": {
@@ -160,11 +185,15 @@
     "map.tileWidth": 32,
     "map.width": 40,
     "openFiles": [
-        "level_1.tmx"
+        "level_1.tmx",
+        "level_3.tmx"
     ],
     "project": "tiled.tiled-project",
     "recentFiles": [
+        "level_3.tmx",
         "level_1.tmx",
+        "D:/Project/assets/tilesets/background.tsx",
+        "level_2.tmx",
         "D:/Project/assets/tilesets/1.tsx",
         "D:/Project/assets/tilesets/2.tsx",
         "D:/Project/assets/tilesets/3.tsx",
@@ -172,10 +201,7 @@
         "D:/Project/assets/tilesets/5.tsx",
         "D:/Project/assets/tilesets/6.tsx",
         "D:/Project/assets/tilesets/Saw.tsx",
-        "D:/Project/assets/tilesets/Hammer.tsx",
-        "D:/Project/assets/tilesets/Platform.tsx",
-        "D:/Project/assets/tilesets/Entry.tsx",
-        "D:/Project/assets/tilesets/Transporter.tsx"
+        "D:/Project/assets/tilesets/Hammer.tsx"
     ],
     "tileset.lastUsedFilter": "Файлы набора тайлов Tiled (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
