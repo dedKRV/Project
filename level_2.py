@@ -2,11 +2,11 @@ import arcade
 from core import *
 from entities import Player
 from enemies import Enemy, Bullet, Card
-from enemy_config import LEVEL_1_ENEMIES, LEVEL_1_SPAWN, ENEMY_Y_OFFSET, LEVEL_1_CARDS
+from enemy_config import LEVEL_2_ENEMIES, LEVEL_2_SPAWN, ENEMY_Y_OFFSET, LEVEL_2_CARDS
 from control import Controls
 
 
-class GameWindow(arcade.Window):
+class GameWindow2(arcade.Window):
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
         arcade.set_background_color(BACKGROUND_COLOR)
@@ -65,10 +65,10 @@ class GameWindow(arcade.Window):
         self.damage_cooldown = 0
         self.DAMAGE_COOLDOWN_TIME = 0.5
 
-        self.shoot_timer = 0  # Таймер для стрельбы игрока
+        self.shoot_timer = 0
 
         self.cards_collected = 0
-        self.total_cards = len(LEVEL_1_CARDS)
+        self.total_cards = len(LEVEL_2_CARDS)
         self.exit_visible = False
         self.exit_animation_visible = True
 
@@ -80,21 +80,21 @@ class GameWindow(arcade.Window):
         self.play_time = 0.0
 
     def setup(self):
-        """Инициализация уровня"""
+        """Инициализация уровня """
         self.player = Player()
-        self.player.center_x = TILE_SIZE * LEVEL_1_SPAWN[0]
-        self.player.center_y = TILE_SIZE * LEVEL_1_SPAWN[1]
+        self.player.center_x = TILE_SIZE * LEVEL_2_SPAWN[0]
+        self.player.center_y = TILE_SIZE * LEVEL_2_SPAWN[1]
         self.player_spritelist = arcade.SpriteList()
         self.player_spritelist.append(self.player)
 
-        self.right_wall = arcade.SpriteSolidColor(10, LEVEL_HEIGHT, arcade.color.BLACK) # правая граница
+        self.right_wall = arcade.SpriteSolidColor(10, LEVEL_HEIGHT, arcade.color.BLACK)
         self.right_wall.center_x = LEVEL_WIDTH + 5
         self.right_wall.center_y = LEVEL_HEIGHT / 2
 
         self.enemies = arcade.SpriteList()
         self.enemy_bullets = arcade.SpriteList()
         self.cards_list = arcade.SpriteList()
-        self.initial_cards_data = LEVEL_1_CARDS.copy()
+        self.initial_cards_data = LEVEL_2_CARDS.copy()
 
         self.load_cards()
 
@@ -122,7 +122,7 @@ class GameWindow(arcade.Window):
         layer_options['exit_animation'] = {"use_spatial_hash": False}
 
         self.tile_map = arcade.load_tilemap(
-            "data/level_1.tmx",
+            "data/level_2.tmx",
             scaling=TILE_SCALING,
             layer_options=layer_options)
 
@@ -140,7 +140,6 @@ class GameWindow(arcade.Window):
         self.spawn_entities_list = self.tile_map.sprite_lists.get('spawn_entities', arcade.SpriteList())
         self.exit_animation_list = self.tile_map.sprite_lists.get('exit_animation', arcade.SpriteList())
 
-        # Загрузка анимационных слоев
         for layer_name in self.animation_layers:
             self.animation_layer_sprites[layer_name] = self.tile_map.sprite_lists.get(layer_name, arcade.SpriteList())
 
@@ -168,9 +167,10 @@ class GameWindow(arcade.Window):
 
         self.update_exit_visibility()
         self.play_time = 0.0
+
     def load_cards(self):
-        """Загрузка карт на уровень"""
-        for card_pos in LEVEL_1_CARDS:
+        """Загрузка карт"""
+        for card_pos in LEVEL_2_CARDS:
             x, y = card_pos
             card = Card(x, y)
             self.cards_list.append(card)
@@ -178,7 +178,7 @@ class GameWindow(arcade.Window):
     def load_enemies_from_spawn_points(self):
         """Создание врагов в точках спавна"""
         if self.spawn_entities_list:
-            attack_cooldown, damage = LEVEL_1_ENEMIES
+            attack_cooldown, damage = LEVEL_2_ENEMIES
             for spawn in self.spawn_entities_list:
                 enemy_x = spawn.center_x
                 enemy_y = spawn.center_y
@@ -211,14 +211,12 @@ class GameWindow(arcade.Window):
             card = Card(x, y)
             self.cards_list.append(card)
 
-        # Сбрасываем счетчик карт
         self.cards_collected = 0
 
-        # Сбрасываем врагов
         self.enemies.clear()
         self.enemy_bullets.clear()
 
-        attack_cooldown, damage = LEVEL_1_ENEMIES
+        attack_cooldown, damage = LEVEL_2_ENEMIES
         for enemy_data in self.initial_enemies_data:
             enemy = Enemy(
                 enemy_data['x'],
@@ -246,15 +244,15 @@ class GameWindow(arcade.Window):
                 self.reset_level_state()
 
                 self.player_health = PLAYER_MAX_HEALTH
-                from enemy_config import LEVEL_1_SPAWN
-                self.player.center_x = TILE_SIZE * LEVEL_1_SPAWN[0]
-                self.player.center_y = TILE_SIZE * LEVEL_1_SPAWN[1]
+                from enemy_config import LEVEL_2_SPAWN
+                self.player.center_x = TILE_SIZE * LEVEL_2_SPAWN[0]
+                self.player.center_y = TILE_SIZE * LEVEL_2_SPAWN[1]
 
                 self.damage_cooldown = 0
                 self.shoot_timer = 0
 
     def check_game_completion(self):
-        """Проверка завершения игры и подсчет звезд"""
+        """Проверка завершения игры и подсчет звезд для уровня 2"""
         exit_hit_list = arcade.check_for_collision_with_list(self.player, self.exit_list)
 
         if not exit_hit_list:
@@ -271,25 +269,23 @@ class GameWindow(arcade.Window):
                 all_enemies_dead = False
                 break
 
-        # Проверка времени (45 секунд для 3 звезды)
         time_bonus = self.play_time <= PERFECT_TIME
 
-        # Подсчёт звёзд
         if all_cards_collected and all_enemies_dead and time_bonus:
             self.stars_earned = 3
-            print("★ ★ ★ - ИДЕАЛЬНО!")
+            print("★ ★ ★ - ИДЕАЛЬНО! Уровень 2 пройден!")
             print(f"Собрано карт: {self.cards_collected}/{self.total_cards}")
             print(f"Убито врагов: Все!")
             print(f"Время: {int(self.play_time)}с (бонус за скорость!)")
         elif all_cards_collected and all_enemies_dead:
             self.stars_earned = 2
-            print("★ ★ - Отлично!")
+            print("★ ★ - Отлично! Уровень 2 пройден!")
             print(f"Собрано карт: {self.cards_collected}/{self.total_cards}")
             print(f"Убито врагов: Все!")
             print(f"Время: {int(self.play_time)}с")
         elif all_cards_collected:
             self.stars_earned = 1
-            print("УРОВЕНЬ ПРОЙДЕН!")
+            print("УРОВЕНЬ 2 ПРОЙДЕН!")
             print("★ - Хорошо!")
             print(f"Собрано карт: {self.cards_collected}/{self.total_cards}")
 
@@ -323,7 +319,6 @@ class GameWindow(arcade.Window):
             self.jump_animation_elapsed = 0
             self.player.change_y = JUMP_POWER
 
-        # Сбор карт
         cards_hit_list = arcade.check_for_collision_with_list(self.player, self.cards_list)
         for card in cards_hit_list:
             if card in self.cards_list:
@@ -331,7 +326,6 @@ class GameWindow(arcade.Window):
                 self.cards_collected += 1
                 self.update_exit_visibility()
 
-        # Коллизии пуль врагов
         bullets_to_remove = []
         for bullet in self.enemy_bullets:
             wall_hit_list = arcade.check_for_collision_with_list(bullet, self.walls)
@@ -343,7 +337,6 @@ class GameWindow(arcade.Window):
                 self.apply_damage(bullet.damage)
                 bullets_to_remove.append(bullet)
 
-        # Удаление пуль
         for bullet in bullets_to_remove:
             if bullet in self.enemy_bullets:
                 self.enemy_bullets.remove(bullet)
@@ -351,7 +344,6 @@ class GameWindow(arcade.Window):
                     if bullet in enemy.bullets:
                         enemy.bullets.remove(bullet)
 
-        # Коллизии пуль игрока
         player_bullets_to_remove = []
         for bullet in self.player.player_bullets:
             wall_hit_list = arcade.check_for_collision_with_list(bullet, self.walls)
@@ -366,7 +358,6 @@ class GameWindow(arcade.Window):
                         self.enemies.remove(enemy)
                     break
 
-        # Удаление пуль игрока
         for bullet in player_bullets_to_remove:
             if bullet in self.player.player_bullets:
                 self.player.player_bullets.remove(bullet)
@@ -375,7 +366,6 @@ class GameWindow(arcade.Window):
         """Отрисовка всех объектов"""
         self.clear()
 
-        # Фоновые слои
         background_layers = ['background', 'background_2']
         for layer_name in background_layers:
             if layer_name in self.tile_map.sprite_lists:
@@ -410,8 +400,8 @@ class GameWindow(arcade.Window):
             self.jump_animation_sprites[self.visible_jump_animation_layer].draw()
 
         self.player_spritelist.draw()
-        self.player.player_bullets.draw()  # Отрисовка пуль игрока
-        # UI: время
+        self.player.player_bullets.draw()
+
         minutes = int(self.play_time // 60)
         seconds = int(self.play_time % 60)
         time_text = f"Время: {minutes:02d}:{seconds:02d}"
@@ -424,7 +414,7 @@ class GameWindow(arcade.Window):
             font_name=UI_FONT_NAME,
             bold=True
         )
-        # UI: здоровье
+
         health_text = f"Здоровье: {self.player_health}/{PLAYER_MAX_HEALTH}"
         arcade.draw_text(
             health_text,
@@ -436,7 +426,6 @@ class GameWindow(arcade.Window):
             bold=True
         )
 
-        # UI: карты
         cards_text = f"Карты: {self.cards_collected}/{self.total_cards}"
         arcade.draw_text(
             cards_text,
@@ -452,22 +441,22 @@ class GameWindow(arcade.Window):
         """Основной игровой цикл"""
         if not self.game_completed:
             self.play_time += delta_time
-        # Если игра уже завершена
+
         if self.game_completed:
             self.completion_timer -= delta_time
             if self.completion_timer <= 0:
                 arcade.close_window()
             return
-        self.player.center_x = max(0, min(self.player.center_x, LEVEL_WIDTH)) # создано для того, чтобы персонаж не вылетал за границы
+
+        self.player.center_x = max(0, min(self.player.center_x, LEVEL_WIDTH))
         self.player.center_y = max(0, min(self.player.center_y, LEVEL_HEIGHT))
-        # Анимация фоновых слоев
+
         self.animation_timer += delta_time
         if self.animation_timer >= ANIMATION_FRAME_TIME:
             self.animation_timer = 0
             self.current_animation_frame = (self.current_animation_frame + 1) % len(self.animation_layers)
             self.visible_animation_layer = self.animation_layers[self.current_animation_frame]
 
-        # Анимация прыжковых платформ
         if self.jump_animation_active:
             self.jump_animation_elapsed += delta_time
 
@@ -483,15 +472,12 @@ class GameWindow(arcade.Window):
             if self.jump_animation_elapsed >= self.jump_animation_duration:
                 self.jump_animation_active = False
 
-        # Кулдаун урона
         if self.damage_cooldown > 0:
             self.damage_cooldown -= delta_time
 
-        # Обновление карт
         for card in self.cards_list:
             card.update(delta_time)
 
-        # Обновление врагов
         for enemy in self.enemies:
             enemy.update(self.player, delta_time, self.walls)
 
@@ -513,14 +499,12 @@ class GameWindow(arcade.Window):
                     elif bullet not in self.enemy_bullets:
                         self.enemy_bullets.append(bullet)
 
-            # Удаление пуль врагов
             for bullet in bullets_to_remove:
                 if bullet in enemy.bullets:
                     enemy.bullets.remove(bullet)
                 if bullet in self.enemy_bullets:
                     self.enemy_bullets.remove(bullet)
 
-        # Очистка вышедших за экран пуль врагов
         bullets_to_remove = []
         for bullet in self.enemy_bullets:
             if bullet.should_remove:
@@ -538,7 +522,6 @@ class GameWindow(arcade.Window):
                 if bullet in enemy.bullets:
                     enemy.bullets.remove(bullet)
 
-        # Обновление и очистка пуль игрока
         self.player.player_bullets.update()
 
         bullets_to_remove = []
@@ -553,10 +536,8 @@ class GameWindow(arcade.Window):
         for bullet in bullets_to_remove:
             bullet.remove_from_sprite_lists()
 
-        # Проверка нахождения на лестнице
         self.on_ladder = self.physics_engine.is_on_ladder()
 
-        # Получение управления
         movement = self.controls.get_movement()
         left_pressed = movement["left"]
         right_pressed = movement["right"]
@@ -564,7 +545,6 @@ class GameWindow(arcade.Window):
         down_pressed = movement["down"]
         shoot_pressed = self.controls.get_shooting()
 
-        # Автоматическая стрельба при зажатии ЛКМ
         if shoot_pressed and self.shoot_timer <= 0:
             self.player.shoot()
             self.shoot_timer = SHOOT_COOLDOWN
@@ -572,14 +552,12 @@ class GameWindow(arcade.Window):
         if self.shoot_timer > 0:
             self.shoot_timer -= delta_time
 
-        # Определение состояния
         self.is_running = (left_pressed or right_pressed) and not self.on_ladder
         self.is_climbing = self.on_ladder and (up_pressed or down_pressed)
 
         if self.check_game_completion():
             return
 
-        # Обновление анимации игрока
         self.player.update_animation(
             delta_time,
             is_running=self.is_running,
@@ -590,7 +568,6 @@ class GameWindow(arcade.Window):
             right_pressed=right_pressed
         )
 
-        # Движение по лестницам
         if self.on_ladder:
             if up_pressed and not down_pressed:
                 self.player.change_y = LADDER_SPEED
@@ -605,7 +582,6 @@ class GameWindow(arcade.Window):
                 self.player.change_x = PLAYER_SPEED
             else:
                 self.player.change_x = 0
-        # Движение по земле
         else:
             if left_pressed and not right_pressed:
                 self.player.change_x = -PLAYER_SPEED
@@ -614,15 +590,11 @@ class GameWindow(arcade.Window):
             else:
                 self.player.change_x = 0
 
-            # Прыжок
             if up_pressed and not self.on_ladder and self.physics_engine.can_jump():
                 self.player.change_y = PLAYER_JUMP_SPEED
                 self.player.start_jump_animation()
 
-        # Проверка коллизий
         self.check_collisions()
-
-        # Обновление физики
         self.physics_engine.update()
 
     def on_key_press(self, key, modifiers):
@@ -649,7 +621,7 @@ class GameWindow(arcade.Window):
         from config_gun import PLAYER_CHOICE, WEAPON_CHOICE
 
         return {
-            'level_number': 1,  # Уровень 1
+            'level_number': 2,
             'character_skin': PLAYER_CHOICE,
             'weapon': int(WEAPON_CHOICE),
             'player_x': self.player.center_x,
@@ -667,14 +639,11 @@ class GameWindow(arcade.Window):
         if not save_data:
             return
 
-        # Загружаем позицию игрока
         self.player.center_x = save_data['player_x']
         self.player.center_y = save_data['player_y']
         self.player_health = save_data['player_health']
 
-        # Загружаем собранные карты
         self.cards_collected = save_data['cards_collected']
-        # Удаляем уже собранные карты
         cards_to_remove = []
         for i, card_pos in enumerate(self.initial_cards_data):
             if i < save_data['cards_collected']:
@@ -689,12 +658,10 @@ class GameWindow(arcade.Window):
             if card in self.cards_list:
                 self.cards_list.remove(card)
 
-        # Загружаем убитых врагов
         for enemy_index in save_data['killed_enemy_indices']:
             if enemy_index < len(self.enemies):
                 self.enemies[enemy_index].state = 'dead'
                 self.enemies[enemy_index].health = 0
 
-        # Загружаем время
         self.play_time = save_data['play_time']
         self.update_exit_visibility()

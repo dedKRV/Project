@@ -1,16 +1,17 @@
 from core import *
 import arcade
-from level_1 import GameWindow
+from level_selection import get_game_window_class
 import pygame
 from database import GameDatabase
 
 
-class Game(GameWindow):
+class Game(get_game_window_class()):
     # класс, который реализует преследование камеры за игроком
     def __init__(self):
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Platformer")
+        # наследуемся от правильного класса, а не создаем экземпляр
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         self.camera = arcade.Camera2D()
-        self.camera.zoom = ZOOM_CAM  # В core.py
+        self.camera.zoom = ZOOM_CAM
         self.level_width = 2000
         self.level_height = 1000
 
@@ -19,14 +20,20 @@ class Game(GameWindow):
         self.pause_menu = None
         self.database = GameDatabase()
 
+        # Получаем номер текущего уровня
+        from config_gun import get_level_choice
+        self.current_level = get_level_choice()
+
     def setup(self):
         pygame.init()  # кастомный курсор на Pygame
         self.custom_cursor = arcade.Sprite('assets/ui_textures/8 Cursors/3.png',
                                            1.0)  # Загружаем текстуру курсора (масштаб 1.0)
         self.custom_cursor.visible = True
         super().setup()
-        if self.database.has_save():
-            save_data = self.database.load_game()
+
+        # Загружаем сохранение только для текущего уровня
+        if self.database.has_save_for_level(self.current_level):
+            save_data = self.database.load_game(self.current_level)
             self.load_from_save(save_data)
 
         # Инициализируем меню паузы
@@ -94,14 +101,11 @@ class Game(GameWindow):
             self.camera.zoom = 1.0
             self.camera.use()
 
-            # Рисуем игру
             super().on_draw()
 
-            # Восстанавливаем камеру
             self.camera.position = saved_position
             self.camera.zoom = saved_zoom
 
-            # Рисуем затемнение на весь экран
             arcade.draw_polygon_filled([
                 (0, 0),
                 (SCREEN_WIDTH, 0),
@@ -109,7 +113,6 @@ class Game(GameWindow):
                 (0, SCREEN_HEIGHT)
             ], (0, 0, 0, 180))
 
-            # Рисуем меню паузы
             if self.pause_menu:
                 self.pause_menu.draw()
 
@@ -134,21 +137,16 @@ class Game(GameWindow):
             elif action == "exit":
                 arcade.close_window()
             elif action == "restart":
-                self.player_health = PLAYER_MAX_HEALTH
-                self.player.center_x = TILE_SIZE * 3
-                self.player.center_y = TILE_SIZE * 17
-                self.reset_level_state()
-                self.play_time = 0.0
-                self.paused = False
+                self.restart_game()
             return
 
-        # Обычная обработка мыши
         self.controls.on_mouse_press(x, y, button, modifiers)
 
     def on_mouse_release(self, x, y, button, modifiers):
         """Обработка отпускания мыши"""
         if not self.paused:
             self.controls.on_mouse_release(x, y, button, modifiers)
+
 
 
 def load_sprite(path, scale=1.0):

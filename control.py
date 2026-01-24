@@ -9,7 +9,7 @@ class Controls:
         self.up_pressed = False
         self.down_pressed = False
         self.shoot_pressed = False
-        self.pause_pressed = False  # Добавили флаг паузы
+        self.pause_pressed = False
 
     def on_key_press(self, key, modifiers):
         """Обработка нажатия клавиши"""
@@ -21,7 +21,7 @@ class Controls:
             self.up_pressed = True
         elif key in (arcade.key.DOWN, arcade.key.S):
             self.down_pressed = True
-        elif key == arcade.key.ESCAPE:  # Добавили ESC
+        elif key == arcade.key.ESCAPE:
             self.pause_pressed = True
 
     def on_key_release(self, key, modifiers):
@@ -34,7 +34,7 @@ class Controls:
             self.up_pressed = False
         elif key in (arcade.key.DOWN, arcade.key.S):
             self.down_pressed = False
-        elif key == arcade.key.ESCAPE:  # Добавили ESC
+        elif key == arcade.key.ESCAPE:
             self.pause_pressed = False
 
     def on_mouse_press(self, x, y, button, modifiers):

@@ -1,5 +1,6 @@
 player = 1  # (1-3)
 gun = 1    # (1-3)
+level = 2 # (1-2)
 
 def get_player_choice():
     """Получить выбор персонажа"""
@@ -23,13 +24,25 @@ def get_gun_choice():
     else:
         return "1"
 
+def get_level_choice():
+    """Получить выбор уровня"""
+    if level == 1:
+        return 1
+    elif level == 2:
+        return 2
+    else:
+        return 1
+
 def select_player():
     return get_player_choice()
+
 PLAYER_CHOICE = get_player_choice()
 WEAPON_CHOICE = get_gun_choice()
+LEVEL_CHOICE = get_level_choice()
 
 def get_config():
     return {
         "player": get_player_choice(),
-        "weapon": get_gun_choice()
+        "weapon": get_gun_choice(),
+        "level": get_level_choice()
     }
