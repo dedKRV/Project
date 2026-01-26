@@ -183,15 +183,45 @@ class Game(arcade.Window):
             arcade.close_window()
 
     def prepare_next_level(self):
-        """Подготовить переход на следующий уровень (сохранить прогресс без загрузки)"""
+        """Подготовить переход на следующий уровень (создать начальное сохранение)"""
         next_level = self.current_level_number + 1
 
         if next_level <= 2:
             # Удаляем сохранение текущего уровня
             self.database.delete_save_for_level(self.current_level_number)
 
-            # Сохраняем информацию о том, что игрок готов к следующему уровню
+            # Сохраняем информацию о том, что следующий уровень доступен
             self.database.save_current_level(next_level)
+
+            # Создаем начальное сохранение для следующего уровня
+            # чтобы кнопка Resume была активна
+            from config_gun import PLAYER_CHOICE, WEAPON_CHOICE
+            from enemy_config import LEVEL_1_SPAWN, LEVEL_2_SPAWN
+
+            if next_level == 1:
+                spawn_x, spawn_y = LEVEL_1_SPAWN
+            elif next_level == 2:
+                spawn_x, spawn_y = LEVEL_2_SPAWN
+            else:
+                spawn_x, spawn_y = 3, 17
+
+            # Создаем минимальное сохранение для следующего уровня
+            initial_save = {
+                'level_number': next_level,
+                'character_skin': PLAYER_CHOICE,
+                'weapon': int(WEAPON_CHOICE),
+                'player_x': TILE_SIZE * spawn_x,
+                'player_y': TILE_SIZE * spawn_y,
+                'player_health': PLAYER_MAX_HEALTH,
+                'enemies_killed': 0,
+                'cards_collected': 0,
+                'money_collected': 0,
+                'total_cards': 0,
+                'play_time': 0.0,
+                'killed_enemy_indices': []
+            }
+
+            self.database.save_game(initial_save)
 
             print(f"Подготовлен переход на уровень {next_level}")
         else:
