@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "D:/Project/assets/tilesets/ui.tsx",
+    "activeFile": "level_3.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -170,6 +170,7 @@
             "scaleInEditor": 1
         },
         "D:/Project/assets/tilesets/3.tsx": {
+            "dynamicWrapping": true,
             "scaleInDock": 0.25,
             "scaleInEditor": 0.33
         },
@@ -184,7 +185,7 @@
         },
         "D:/Project/assets/tilesets/6.tsx": {
             "dynamicWrapping": true,
-            "scaleInDock": 0.125,
+            "scaleInDock": 0.25,
             "scaleInEditor": 0.33
         },
         "D:/Project/assets/tilesets/8.tsx": {
@@ -257,8 +258,8 @@
         },
         "D:/Project/assets/tilesets/ui.tsx": {
             "dynamicWrapping": true,
-            "scaleInDock": 1,
-            "scaleInEditor": 1
+            "scaleInDock": 0.03125,
+            "scaleInEditor": 0.0625
         },
         "D:/Project/assets/ui_textures/set.tsx": {
             "dynamicWrapping": true,
@@ -297,8 +298,8 @@
             "scale": 0.8305078125,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 824.1945345938572,
-                "y": 469.59221109072945
+                "x": 640.5719392314566,
+                "y": 367.84723202107136
             }
         },
         "gameover.tmx#gameover": {
@@ -306,10 +307,10 @@
         },
         "interface.tmx": {
             "scale": 0.5,
-            "selectedLayer": 50,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 753,
-                "y": 656
+                "x": 578,
+                "y": 66
             }
         },
         "level.tmx": {
@@ -325,15 +326,15 @@
             "selectedLayer": 9,
             "viewCenter": {
                 "x": 666,
-                "y": 589.5
+                "y": 590
             }
         },
         "level_2.tmx": {
-            "scale": 0.5,
-            "selectedLayer": 19,
+            "scale": 0.75,
+            "selectedLayer": 8,
             "viewCenter": {
-                "x": 887,
-                "y": 446
+                "x": 643.9999999999999,
+                "y": 202.66666666666669
             }
         },
         "level_2.tmx#9": {
@@ -349,12 +350,27 @@
             "dynamicWrapping": true,
             "scaleInDock": 1
         },
+        "level_3.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 628.6666666666667,
+                "y": 305.33333333333337
+            }
+        },
+        "level_3.tmx#9": {
+            "scaleInDock": 1
+        },
+        "level_3.tmx#cars": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.5
+        },
         "menu.tmx": {
             "scale": 1,
             "selectedLayer": 43,
             "viewCenter": {
-                "x": 525.5,
-                "y": 291
+                "x": 640,
+                "y": 367.5
             }
         },
         "menu.tmx#ButtonMap1": {
@@ -417,7 +433,7 @@
         }
     },
     "last.externalTilesetPath": "D:/Project/assets/tilesets",
-    "last.imagePath": "D:/Project/assets/ui_textures/ui",
+    "last.imagePath": "D:/Project/assets/tilesets/7/1 Bodies",
     "map.height": 23,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 32,
@@ -432,7 +448,8 @@
         "D:/Project/assets/tilesets/8.tsx",
         "menu.tmx",
         "D:/Project/assets/tilesets/ui.tsx",
-        "interface.tmx"
+        "interface.tmx",
+        "level_3.tmx"
     ],
     "project": "tiled.tiled-project",
     "recentFiles": [
@@ -443,11 +460,11 @@
         "level_2.tmx",
         "D:/Project/assets/tilesets/8.tsx",
         "menu.tmx",
-        "interface.tmx",
         "D:/Project/assets/tilesets/ui.tsx",
+        "interface.tmx",
+        "level_3.tmx",
         "C:/Users/rioni/OneDrive/Desktop/безымянный.tmx",
-        "C:/Users/rioni/OneDrive/Desktop/menu.tmx",
-        "C:/Users/rioni/PycharmProjects/Project/assets/tilesets/Transporter.tsx"
+        "C:/Users/rioni/OneDrive/Desktop/menu.tmx"
     ],
     "tileset.embedInMap": true,
     "tileset.lastUsedFilter": "Все файлы (*)",
