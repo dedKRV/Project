@@ -1,6 +1,6 @@
 import arcade
 from core import PLAYER_BULLET_SPEED, PLAYER_BULLET_LIFETIME
-from config_gun import get_gun_choice
+from choice import get_gun_choice
 
 
 class Weapon:

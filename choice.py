@@ -32,6 +32,8 @@ def get_level_choice():
         return 2
     elif level == 3:
         return 3
+    elif level == 4:
+        return 4
     else:
         return 1
 

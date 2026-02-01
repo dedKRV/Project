@@ -1,8 +1,8 @@
 ENEMY_Y_OFFSET = 10
 
 # Уровень 1
-LEVEL_1_SPAWN = (3, 17)
-LEVEL_1_ENEMIES = (2.0, 10)
+LEVEL_1_SPAWN = (3, 17) # координаты спавна
+LEVEL_1_ENEMIES = (2.0, 10)  # (attack_cooldown, damage)
 LEVEL_1_CARDS = [
     (11, 9),
     (2, 1),
@@ -33,4 +33,10 @@ LEVEL_3_CARDS = [
     (28, 18),
     (37, 10),
     (22, 6),
+]
+
+# Уровень 4
+LEVEL_4_SPAWN = (2, 2)
+LEVEL_4_ENEMIES = (2.0, 10)
+LEVEL_4_CARDS = [
 ]

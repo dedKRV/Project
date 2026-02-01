@@ -349,6 +349,8 @@ class BaseLevel(arcade.Window):
             perfect_time = PERFECT_TIME_2
         elif self.get_level_number() == 3:
             perfect_time = PERFECT_TIME_3
+        elif self.get_level_number() == 4:
+            perfect_time = PERFECT_TIME_4
         else:
             perfect_time = PERFECT_TIME
 
@@ -712,7 +714,7 @@ class BaseLevel(arcade.Window):
 
     def get_save_data(self):
         """Получить данные для сохранения"""
-        from config_gun import PLAYER_CHOICE, WEAPON_CHOICE
+        from choice import PLAYER_CHOICE, WEAPON_CHOICE
 
         return {
             'level_number': self.get_level_number(),

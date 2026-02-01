@@ -5,7 +5,7 @@ from core import *
 def get_game_window_class(level_number=None):
     """Получить класс окна игры в зависимости от номера уровня"""
     if level_number is None:
-        from config_gun import get_level_choice
+        from choice import get_level_choice
         level_number = get_level_choice()
 
     if level_number == 1:
@@ -17,6 +17,9 @@ def get_game_window_class(level_number=None):
     elif level_number == 3:
         from level_3 import GameWindow3
         return GameWindow3
+    elif level_number == 4:
+        from level_4 import GameWindow4
+        return GameWindow4
     else:
         from level_1 import GameWindow as Level1Class
         return Level1Class
@@ -32,5 +35,8 @@ def create_next_level_window(current_level, width, height, title):
     elif next_level == 3:
         from level_3 import GameWindow3
         return GameWindow3(width, height, title)
+    elif next_level == 4:
+        from level_4 import GameWindow4
+        return GameWindow4(width, height, title)
     else:
         return None

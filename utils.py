@@ -116,7 +116,7 @@ class Game(arcade.Window):
         self.complete_menu = CompleteMenu()  # Новое меню
 
         # Загружаем настройки из config_gun
-        from config_gun import player, gun
+        from choice import player, gun
         self.selected_player = player
         self.selected_gun = gun
 
@@ -156,6 +156,10 @@ class Game(arcade.Window):
             from level_3 import GameWindow3 as GameWindow
             from enemy_config import LEVEL_3_CARDS
             self.total_cards = len(LEVEL_3_CARDS)
+        elif level_number == 4:
+            from level_4 import GameWindow4 as GameWindow
+            from enemy_config import LEVEL_4_CARDS
+            self.total_cards = len(LEVEL_4_CARDS)
 
         # Копируем методы из класса уровня
         self.setup_level = GameWindow.setup.__get__(self, Game)
@@ -193,7 +197,7 @@ class Game(arcade.Window):
         """Переключиться на следующий уровень"""
         next_level = self.current_level_number + 1
 
-        if next_level <= 3:  # Изменили с 2 на 3
+        if next_level <= 4:
             # Сбрасываем HUD перед загрузкой нового уровня
             self.game_hud.reset()
             # Удаляем сохранение предыдущего уровня
@@ -215,11 +219,11 @@ class Game(arcade.Window):
         """Подготовить переход на следующий уровень (создать начальное сохранение)"""
         next_level = self.current_level_number + 1
 
-        if next_level <= 3:  # Изменили с 2 на 3
+        if next_level <= 4:
             # Сбрасываем HUD
             self.game_hud.reset()
 
-        if next_level <= 3:  # Изменили с 2 на 3
+        if next_level <= 4:
             # Удаляем сохранение текущего уровня
             self.database.delete_save_for_level(self.current_level_number)
 
@@ -227,7 +231,7 @@ class Game(arcade.Window):
             self.database.save_current_level(next_level)
 
             # Создаем начальное сохранение для следующего уровня
-            from config_gun import PLAYER_CHOICE, WEAPON_CHOICE
+            from choice import PLAYER_CHOICE, WEAPON_CHOICE
 
             # Получаем spawn позицию для следующего уровня
             if next_level == 1:
@@ -239,6 +243,9 @@ class Game(arcade.Window):
             elif next_level == 3:
                 from enemy_config import LEVEL_3_SPAWN
                 spawn_x, spawn_y = LEVEL_3_SPAWN
+            elif next_level == 4:
+                from enemy_config import LEVEL_4_SPAWN
+                spawn_x, spawn_y = LEVEL_4_SPAWN
             else:
                 spawn_x, spawn_y = 3, 17
 
@@ -262,7 +269,6 @@ class Game(arcade.Window):
 
             print(f"Подготовлен переход на уровень {next_level}")
         else:
-            # Игра полностью пройдена
             self.database.delete_all_saves()
             print("Игра полностью пройдена!")
 

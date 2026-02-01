@@ -1,6 +1,6 @@
 import arcade
 from core import *
-from config_gun import get_gun_choice, select_player
+from choice import select_player, get_gun_choice
 from weapon import Weapon, PlayerBullet
 
 

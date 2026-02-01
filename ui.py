@@ -1,7 +1,7 @@
 import arcade
 import random
 from core import *
-import config_gun
+import choice
 from particles import ParticleSystem
 
 
@@ -140,8 +140,8 @@ class MainMenu:
         self.resume_button_y = 385
         self.restart_button_y = 290
 
-        self.current_player_choice = config_gun.player
-        self.current_gun_choice = config_gun.gun
+        self.current_player_choice = choice.player
+        self.current_gun_choice = choice.gun
 
     def _load_all_layers(self):
         """Загрузка всех слоев из тайлмапа"""
@@ -495,7 +495,7 @@ class MainMenu:
                 pos = self.gun_button_positions[i]
                 if self._point_in_button(x, y, pos['x'], pos['y'], pos['width'], pos['height']):
                     self.current_gun_choice = i
-                    config_gun.gun = i
+                    choice.gun = i
                     print(f"Выбрано оружие {i}")
                     return f"gun_select_{i}"
 
@@ -505,7 +505,7 @@ class MainMenu:
                 pos = self.player_button_positions[i]
                 if self._point_in_button(x, y, pos['x'], pos['y'], pos['width'], pos['height']):
                     self.current_player_choice = i
-                    config_gun.player = i
+                    choice.player = i
                     print(f"Выбран персонаж {i}")
                     return f"player_select_{i}"
 
